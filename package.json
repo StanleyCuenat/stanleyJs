@@ -1,0 +1,30 @@
+{
+  "name": "stanley-js",
+  "version": "1.0.0",
+  "description": "An other NodeJS API framework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --transpileOnly -r tsconfig-paths/register -r dotenv/config"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StanleyCuenat/stanleyJs.git"
+  },
+  "author": "Stanislas Cuenat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StanleyCuenat/stanleyJs/issues"
+  },
+  "homepage": "https://github.com/StanleyCuenat/stanleyJs#readme",
+  "dependencies": {
+    "@types/dotenv": "^6.1.1",
+    "dotenv": "^8.1.0",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {
+    "@types/typescript": "^2.0.0",
+    "jsdoc": "^3.6.3",
+    "ts-node-dev": "^1.0.0-pre.43"
+  }
+}
