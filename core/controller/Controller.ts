@@ -11,14 +11,14 @@ export default class Controller {
      * @param  {type.ICallback[]} ...cbs
      */
     post = (uri: string, ...cbs: type.ICallback[]) => {
-        this._router.push({ method: 'post', uri: uri, cbs: cbs })
+        this._router.push({ method: 'POST', uri: uri, cbs: cbs })
     }
     /**
      * @param  {string} uri
      * @param  {type.ICallback[]} ...cbs
      */
     get = (uri: string, ...cbs: type.ICallback[]) => {
-        this._router.push({ method: 'post', uri: uri, cbs: cbs })
+        this._router.push({ method: 'GET', uri: uri, cbs: cbs })
     }
 
     /**
@@ -26,7 +26,7 @@ export default class Controller {
      * @param  {type.ICallback[]} ...cbs
      */
     update = (uri: string, ...cbs: type.ICallback[]) => {
-        this._router.push({ method: 'post', uri: uri, cbs: cbs })
+        this._router.push({ method: 'UPDATE', uri: uri, cbs: cbs })
     }
 
     /**
@@ -34,7 +34,7 @@ export default class Controller {
      * @param  {type.ICallback[]} ...cbs
      */
     delete = (uri: string, ...cbs: type.ICallback[]) => {
-        this._router.push({ method: 'post', uri: uri, cbs: cbs })
+        this._router.push({ method: 'DELETE', uri: uri, cbs: cbs })
     }
 
     /**
@@ -42,7 +42,7 @@ export default class Controller {
      * @param  {type.ICallback[]} ...cbs
      */
     patch = (uri: string, ...cbs: type.ICallback[]) => {
-        this._router.push({ method: 'post', uri: uri, cbs: cbs })
+        this._router.push({ method: 'PATCH', uri: uri, cbs: cbs })
     }
 
     /**

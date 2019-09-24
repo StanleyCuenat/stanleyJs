@@ -4,14 +4,15 @@ import * as type from '@interface/index'
 export default class ExampleCtrl extends Controller {
     constructor() {
         super()
+        this.setRouter()
     }
 
-    test = (req: type.IRequest, res: type.IResponse) => {
+    test = async (req: type.IRequest, res: type.IResponse): Promise<any> => {
         console.log(req)
         console.log(res)
     }
 
     setRouter = () => {
-        this.get('/test', this.test)
+        this.get('/test/:id/lib/:libId', this.test)
     }
 }

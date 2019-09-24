@@ -9,12 +9,12 @@ A nice API framework for js lover
     load Controller dynamically [DONE]
     load DAO dynamically [DONE]
     apply middleware for controller routing [IN PROGRESS]
+    basic parser for route [DONE]
 
 ## Controller
 
     create Controller [DONE]
-    create next class / function
-    apply middleware before (maybe Server part side)
+    create next class / function [DONE MAYBE]
 
 ## Request
 
@@ -28,8 +28,7 @@ A nice API framework for js lover
 
 ## middleware
 
-    middleware Class
-    apply inside routing / controller
+    middleware Class [MAYBE DONE]
 
 ## httpDecorator
 
@@ -50,6 +49,7 @@ A nice API framework for js lover
 
 ## DB
 
+    implement abstract db [ DONE ]
     implement default database connection [IN PROGRESS]
 
 ## RESULT DATA FORMAT

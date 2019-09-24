@@ -24,19 +24,42 @@ export default class Server {
         this._modelList = []
     }
 
-    parseRequest = (req: type.IRequest, res: type.IResponse) => {}
+    launchRoute = async (
+        req: type.IRequest,
+        res: type.IResponse,
+        route: type.IRoute,
+    ): Promise<any> => {}
+
+    parseRequest = (req: type.IRequest, res: type.IResponse): void => {
+        this._ctrlList.forEach(ctrl => {
+            ctrl.ctrl.getRouter().forEach(route => {
+                let uri: string = route.uri as string
+                const regex = new RegExp(':([a-z-A-Z-0-9]{1,})')
+                while (uri.search(regex) !== -1) {
+                    uri = uri.replace(regex, '([a-z-A-Z-0-9]{1,})')
+                }
+                if (
+                    req.url !== undefined &&
+                    req.url.match(new RegExp(uri)) &&
+                    req.method !== undefined &&
+                    route.method !== undefined
+                ) {
+                    this.launchRoute(req, res, route)
+                }
+            })
+        })
+    }
 
     /**
      * @returns http
      */
     loadServer = (): http.Server | https.Server => {
         return http.createServer((req: type.IRequest, res: type.IResponse) => {
-            console.log(req)
             this.parseRequest(req, res)
         })
     }
 
-    startServer = () => {
+    startServer = (): void => {
         this._internalServer.listen(process.env.SERVER_PORT, () => {
             console.info(
                 `Server started, listen on port ${process.env.SERVER_PORT}`,
@@ -44,7 +67,7 @@ export default class Server {
         })
     }
 
-    loadModule = (rootPath: string, file: fs.Dirent) => {
+    loadModule = (rootPath: string, file: fs.Dirent): void => {
         fs.readdir(rootPath + file.name, {}, (err, files) => {
             if (err) {
                 throw err
@@ -60,7 +83,7 @@ export default class Server {
         })
     }
 
-    loadModuleFolder = () => {
+    loadModuleFolder = (): void => {
         const rootPath = path.resolve('.') + '/modules/'
         fs.readdir(rootPath, { withFileTypes: true }, (err, files) => {
             if (err) {

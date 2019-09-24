@@ -8,4 +8,8 @@ export default interface IDb {
     delete: (id: string, collectionName: string) => any
 
     create: (document: any, collectionName: string) => any
+
+    connect: () => any
+
+    getCli: () => IDb
 }
