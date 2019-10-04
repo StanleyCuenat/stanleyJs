@@ -8,7 +8,7 @@ A nice API framework for js lover
 
     load Controller dynamically [DONE]
     load DAO dynamically [DONE]
-    apply middleware for controller routing [IN PROGRESS]
+    apply middleware for controller routing [DONE]
     basic parser for route [DONE]
 
 ## Controller
@@ -28,7 +28,7 @@ A nice API framework for js lover
 
 ## middleware
 
-    middleware Class [MAYBE DONE]
+    middleware Class [DONE]
 
 ## httpDecorator
 

@@ -8,11 +8,16 @@ export default class ExampleCtrl extends Controller {
     }
 
     test = async (req: type.IRequest, res: type.IResponse): Promise<any> => {
-        console.log(req)
-        console.log(res)
+        console.log('second access')
+    }
+
+    before = async (req: type.IRequest, res: type.IResponse) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {}, 5000)
+        })
     }
 
     setRouter = () => {
-        this.get('/test/:id/lib/:libId', this.test)
+        this.get('/test/:id/lib/:libId', this.before, this.test)
     }
 }

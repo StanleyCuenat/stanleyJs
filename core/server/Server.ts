@@ -24,11 +24,27 @@ export default class Server {
         this._modelList = []
     }
 
+    *test(idx: number): IterableIterator<number> {
+        yield idx++
+    }
+
     launchRoute = async (
         req: type.IRequest,
         res: type.IResponse,
         route: type.IRoute,
-    ): Promise<any> => {}
+    ): Promise<any> => {
+        let idx = 0
+        const gen = this.test(idx)
+        for (idx = 0; idx < route.cbs.length; idx++) {
+            try {
+                await route.cbs[idx](req, res)
+            } catch (e) {
+                console.log(e)
+                return e
+            }
+        }
+        return
+    }
 
     parseRequest = (req: type.IRequest, res: type.IResponse): void => {
         this._ctrlList.forEach(ctrl => {
@@ -42,9 +58,13 @@ export default class Server {
                     req.url !== undefined &&
                     req.url.match(new RegExp(uri)) &&
                     req.method !== undefined &&
-                    route.method !== undefined
+                    route.method.toUpperCase() === req.method.toUpperCase()
                 ) {
                     this.launchRoute(req, res, route)
+                        .then(() => {})
+                        .catch(e => {
+                            return e
+                        })
                 }
             })
         })
