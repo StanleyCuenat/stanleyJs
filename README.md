@@ -14,17 +14,17 @@ A nice API framework for js lover
 ## Controller
 
     create Controller [DONE]
-    create next class / function [DONE MAYBE]
+    create next class / function [DONE]
 
 ## Request
 
-    Request class (overwrite http.Incoming message) [IN PROGRESS]
-    Access to server context
+    Request class (overwrite http.Incoming message) [DONE]
+    Access to server context [DONE]
 
 ## Response
 
-    Response class (overwrite http.Incoming message) [IN PROGRESS]
-    possibility to set variable inside
+    Response class (overwrite http.Incoming message) [DONE]
+    possibility to set basic variable inside [DONE]
 
 ## middleware
 

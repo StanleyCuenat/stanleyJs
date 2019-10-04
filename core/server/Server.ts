@@ -4,6 +4,8 @@ import * as fs from 'fs'
 import path from 'path'
 import * as type from '@interface/index'
 import Controller from '@controller/Controller'
+import Request from '@request/Request'
+import Response from '@response/Response'
 import DAO from '@DAO/DAO'
 
 /**
@@ -24,22 +26,16 @@ export default class Server {
         this._modelList = []
     }
 
-    *test(idx: number): IterableIterator<number> {
-        yield idx++
-    }
-
     launchRoute = async (
         req: type.IRequest,
         res: type.IResponse,
         route: type.IRoute,
     ): Promise<any> => {
         let idx = 0
-        const gen = this.test(idx)
         for (idx = 0; idx < route.cbs.length; idx++) {
             try {
                 await route.cbs[idx](req, res)
             } catch (e) {
-                console.log(e)
                 return e
             }
         }
@@ -74,9 +70,13 @@ export default class Server {
      * @returns http
      */
     loadServer = (): http.Server | https.Server => {
-        return http.createServer((req: type.IRequest, res: type.IResponse) => {
-            this.parseRequest(req, res)
-        })
+        return http.createServer(
+            (_req: http.IncomingMessage, _res: http.ServerResponse) => {
+                const req = new Request(_req, this)
+                const res = new Response(_res)
+                this.parseRequest(req, res)
+            },
+        )
     }
 
     startServer = (): void => {

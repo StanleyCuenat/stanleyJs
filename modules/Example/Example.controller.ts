@@ -9,11 +9,17 @@ export default class ExampleCtrl extends Controller {
 
     test = async (req: type.IRequest, res: type.IResponse): Promise<any> => {
         console.log('second access')
+        res.setContent({ status: 'ok' })
+        res.status(200)
+        res.send()
     }
 
     before = async (req: type.IRequest, res: type.IResponse) => {
+        console.log('before')
         return new Promise((resolve, reject) => {
-            setTimeout(() => {}, 5000)
+            setTimeout(() => {
+                return resolve()
+            }, 500)
         })
     }
 
