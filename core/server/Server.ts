@@ -4,6 +4,7 @@ import * as fs from 'fs'
 import path from 'path'
 import * as type from '@interface/index'
 import Controller from '@controller/Controller'
+import * as Interface from '@interface/index'
 import Request from '@request/Request'
 import Response from '@response/Response'
 import DAO from '@DAO/DAO'
@@ -19,11 +20,23 @@ export default class Server {
     private _internalServer: http.Server
     private _ctrlList: Array<{ name: string; ctrl: Controller }>
     private _modelList: Array<{ name: string; model: DAO }>
+    private _databaseTypeList: Array<{ name: string; type: any }>
+    private _middlewareList: Array<Interface.ICallback>
     constructor() {
-        this.loadModuleFolder()
         this._internalServer = this.loadServer()
         this._ctrlList = []
         this._modelList = []
+        this._databaseTypeList = []
+        this._middlewareList = []
+        this.loadModuleFolder()
+    }
+
+    addGlobalMiddleware = (middleware: Interface.ICallback): void => {
+        this._middlewareList.push(middleware)
+    }
+
+    getGlobalMiddleware = (): Array<Interface.ICallback> => {
+        return this._middlewareList
     }
 
     launchRoute = async (
@@ -41,7 +54,12 @@ export default class Server {
         }
         return
     }
-
+    /**
+     * @param  {type.IRequest} req
+     * @param  {type.IResponse} res
+     * @returns void
+     * Basic Parser for router. Can be improve for sure.
+     */
     parseRequest = (req: type.IRequest, res: type.IResponse): void => {
         this._ctrlList.forEach(ctrl => {
             ctrl.ctrl.getRouter().forEach(route => {
@@ -95,6 +113,11 @@ export default class Server {
             const module = require(rootPath + file.name + '/index.ts')
             const controller: Controller = new module.Controller()
             const model: DAO = new module.Model()
+            try {
+                const dataBaseType: Interface.IDatabaseType = module.Type
+            } catch (e) {
+                console.warn('databaseTypeNotFound')
+            }
             this._ctrlList.push({
                 name: controller.constructor.name,
                 ctrl: controller,

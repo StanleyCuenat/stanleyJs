@@ -34,9 +34,9 @@ A nice API framework for js lover
 
     implement http decorator for default response
 
-# httpError
+# HTTP RESPONSE
 
-    implement basic httpError for an API
+    implement basic HTTP RESPONSE for an API
 
 ## guardian update
 
@@ -55,3 +55,7 @@ A nice API framework for js lover
 ## RESULT DATA FORMAT
 
     implement a good and generic result data format
+
+## Serialize Input
+
+    Serialize object input to database OBJECT. [IN PROGRESS]
