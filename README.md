@@ -32,15 +32,15 @@ A nice API framework for js lover
 
 ## httpDecorator
 
-    implement http decorator for default response
+    implement http decorator for default response [ MAYBE USELESS ]
 
 # HTTP RESPONSE
 
-    implement basic HTTP RESPONSE for an API
+    implement basic HTTP RESPONSE for an API [ MAYBE USELESS ]
 
 ## guardian update
 
-    implement guardian for document modification
+    implement guardian for document modification [ MARSHALL ??]
 
 ## DAO
 
@@ -58,4 +58,6 @@ A nice API framework for js lover
 
 ## Serialize Input
 
-    Serialize object input to database OBJECT. [IN PROGRESS]
+    Serialize object input to database OBJECT. [DONE WITH BASIC MARSHALL to Domain]
+    Nested Object Marshalling [IN PROGRESS]
+    Optional field check [IN PROGRESS]

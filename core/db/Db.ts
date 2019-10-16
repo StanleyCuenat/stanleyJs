@@ -25,11 +25,11 @@ export default class Db implements types.IDb {
         throw 'CREATE NOT IMPLEMENTED'
     }
 
-    connect = () => {
+    connect = (): void => {
         throw 'CONNECT NOT IMPLEMENTED'
     }
 
-    getCli = () => {
+    getCli = (): any => {
         return this._cli
     }
 }

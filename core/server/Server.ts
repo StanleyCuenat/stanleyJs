@@ -113,11 +113,6 @@ export default class Server {
             const module = require(rootPath + file.name + '/index.ts')
             const controller: Controller = new module.Controller()
             const model: DAO = new module.Model()
-            try {
-                const dataBaseType: Interface.IDatabaseType = module.Type
-            } catch (e) {
-                console.warn('databaseTypeNotFound')
-            }
             this._ctrlList.push({
                 name: controller.constructor.name,
                 ctrl: controller,

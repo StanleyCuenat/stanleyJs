@@ -4,4 +4,6 @@ export default class MongoDB extends Db {
     constructor() {
         super()
     }
+
+    connect = (): void => {}
 }
