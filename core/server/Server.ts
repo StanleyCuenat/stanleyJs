@@ -7,6 +7,7 @@ import Controller from '@controller/Controller'
 import * as Interface from '@interface/index'
 import Request from '@request/Request'
 import Response from '@response/Response'
+import * as HttpFormat from '@httpFormat/index'
 import DAO from '@DAO/DAO'
 
 /**
@@ -38,19 +39,27 @@ export default class Server {
     getGlobalMiddleware = (): Array<Interface.ICallback> => {
         return this._middlewareList
     }
-
     launchRoute = async (
         req: type.IRequest,
         res: type.IResponse,
         route: type.IRoute,
     ): Promise<any> => {
         let idx = 0
-        for (idx = 0; idx < route.cbs.length; idx++) {
-            try {
+        if (route.method !== 'GET') {
+            req.setBody()
+        }
+        try {
+            for (idx = 0; idx < route.cbs.length; idx++) {
                 await route.cbs[idx](req, res)
-            } catch (e) {
-                return e
             }
+            res.send()
+        } catch (e) {
+            if (e instanceof HttpFormat.HttpResponse) {
+                res.setHttpFormat(e)
+            } else {
+                res.setHttpFormat(new HttpFormat.HttpInternalError())
+            }
+            res.send()
         }
         return
     }
@@ -74,11 +83,10 @@ export default class Server {
                     req.method !== undefined &&
                     route.method.toUpperCase() === req.method.toUpperCase()
                 ) {
-                    this.launchRoute(req, res, route)
-                        .then(() => {})
-                        .catch(e => {
-                            return e
-                        })
+                    this.launchRoute(req, res, route).then(() => {})
+                } else {
+                    res.setHttpFormat(new HttpFormat.HttpNotFound())
+                    res.send()
                 }
             })
         })

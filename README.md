@@ -33,10 +33,11 @@ A nice API framework for js lover
 ## httpDecorator
 
     implement http decorator for default response [ MAYBE USELESS ]
+    implement basic for POST UPDATE PATCH DOC (parse JSON)
 
 # HTTP RESPONSE
 
-    implement basic HTTP RESPONSE for an API [ MAYBE USELESS ]
+    implement basic HTTP RESPONSE for an API [ DONE ]
 
 ## guardian update
 
@@ -50,14 +51,15 @@ A nice API framework for js lover
 ## DB
 
     implement abstract db [ DONE ]
-    implement default database connection [IN PROGRESS]
+    implement default database connection [DONE must be implemented manually]
 
 ## RESULT DATA FORMAT
 
-    implement a good and generic result data format
+    implement a good and generic result data format [ DONE ]
 
 ## Serialize Input
 
     Serialize object input to database OBJECT. [DONE WITH BASIC MARSHALL to Domain]
-    Nested Object Marshalling [IN PROGRESS]
+    Nested Object Marshalling [DONE]
+    array Marshalling [ IN PROGRESS]
     Optional field check [IN PROGRESS]

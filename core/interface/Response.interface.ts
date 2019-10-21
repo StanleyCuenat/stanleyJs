@@ -1,11 +1,9 @@
 import http from 'http'
-
+import * as HttpFormat from '@httpFormat/index'
 export default interface IResponse {
-    content: string | Object
-    statusCode: number
     headers: Object
-    setContent(content: String | Object): void
+    httpFormat: HttpFormat.HttpResponse
+    setHttpFormat(httpFormat: HttpFormat.HttpResponse): void
     addHeaders(headers: Array<object>): void
-    status(headers: number): void
     send(): void
 }
