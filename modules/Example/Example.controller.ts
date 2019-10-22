@@ -10,15 +10,11 @@ export default class ExampleCtrl extends Controller {
     }
 
     test = async (req: type.IRequest, res: type.IResponse): Promise<any> => {
-        try {
-            const result = await Marshall.marshallObject(
-                Example.Marshall,
-                req.getBody(),
-            )
-            return res.setHttpFormat(new HttpFormat.HttpOk(result, 200))
-        } catch (e) {
-            throw e
-        }
+        const result = await Marshall.marshallObject(
+            Example.Marshall,
+            req.getBody(),
+        )
+        return res.setHttpFormat(new HttpFormat.HttpOk(result, 200))
     }
 
     before = async (req: type.IRequest, res: type.IResponse) => {}

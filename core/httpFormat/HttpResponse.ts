@@ -1,10 +1,11 @@
 export default class HttpResponse {
-    public body: object
+    public body: any
     public status: number
     public internalId: string
     public message: string
+
     constructor(
-        body: object = {},
+        body: any = {},
         status: number = 200,
         internalId: string = 'DEFAULT',
         message: string = 'basic format',
@@ -15,8 +16,8 @@ export default class HttpResponse {
         this.message = message
     }
 
-    setBody(body: object) {
-        this.body = body
+    setBody(obj: any): void {
+        this.body = obj
     }
 
     setStatus(status: number) {
