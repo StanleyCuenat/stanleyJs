@@ -30,11 +30,6 @@ A nice API framework for js lover
 
     middleware Class [DONE]
 
-## httpDecorator
-
-    implement http decorator for default response [ MAYBE USELESS ]
-    implement basic for POST UPDATE PATCH DOC (parse JSON)
-
 # HTTP RESPONSE
 
     implement basic HTTP RESPONSE for an API [ DONE ]
@@ -61,5 +56,14 @@ A nice API framework for js lover
 
     Serialize object input to database OBJECT. [DONE WITH BASIC MARSHALL to Domain]
     Nested Object Marshalling [DONE]
-    array Marshalling [ IN PROGRESS]
-    Optional field check [IN PROGRESS]
+    array Marshalling [ IN PROGRESS Really heavy to do with JS/TS in a easy way]
+    Optional field check [IN PROGRESS MAYBE IMPOSSIBLE in a easy way FUCK JS FUCK TS]
+
+## BASIC JSON / DATA PARSER
+
+    # default JSON parser [DONE]
+
+# FINAL GOAL
+
+    The final goal is to create a typescript framework who already implement the Webmachine
+    http://webmachine.github.io/

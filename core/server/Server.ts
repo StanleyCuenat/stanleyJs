@@ -52,16 +52,13 @@ export default class Server {
             for (idx = 0; idx < route.cbs.length; idx++) {
                 await route.cbs[idx](req, res)
             }
-            res.send()
         } catch (e) {
             if (e instanceof HttpFormat.HttpResponse) {
                 res.setHttpFormat(e)
             } else {
                 res.setHttpFormat(new HttpFormat.HttpInternalError())
             }
-            res.send()
         }
-        return
     }
     /**
      * @param  {type.IRequest} req
@@ -83,7 +80,9 @@ export default class Server {
                     req.method !== undefined &&
                     route.method.toUpperCase() === req.method.toUpperCase()
                 ) {
-                    this.launchRoute(req, res, route).then(() => {})
+                    this.launchRoute(req, res, route).then(() => {
+                        return res.send()
+                    })
                 } else {
                     res.setHttpFormat(new HttpFormat.HttpNotFound())
                     res.send()

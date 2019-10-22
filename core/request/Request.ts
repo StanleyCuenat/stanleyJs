@@ -1,5 +1,7 @@
 import http from 'http'
 import * as Interface from '@interface/index'
+import * as Parser from '@parser/index'
+import * as HttpFormat from '@httpFormat/index'
 import Server from '@server/Server'
 export default class Request implements Interface.IRequest {
     public body: string
@@ -25,7 +27,7 @@ export default class Request implements Interface.IRequest {
         if (this.headers['content-type']) {
             return this.headers['content-type']
         }
-        throw 'CONTENT TYPE NOT FOUND'
+        return ''
     }
     /**
      */
@@ -33,17 +35,21 @@ export default class Request implements Interface.IRequest {
         this._req.on('readable', () => {
             this.body += this._req.read()
         })
-        this._req.on('end', () => {
-            if (this.getContentType().toLowerCase() === 'application/json') {
-                this.body = JSON.parse(this.body)
-            }
-        })
     }
     /**
      * @returns string
      */
-    getBody = (): string | Object => {
-        return this.body
+    getBody = (): object => {
+        try {
+            if (this.getContentType().toLowerCase() === 'application/json') {
+                const obj = Parser.Json(this.body)
+                return obj
+            } else {
+                throw new HttpFormat.HttpBadRequest()
+            }
+        } catch (e) {
+            throw e
+        }
     }
 
     /**

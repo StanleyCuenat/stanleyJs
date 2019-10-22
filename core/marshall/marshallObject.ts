@@ -1,4 +1,5 @@
 import * as Interface from '@interface/index'
+import * as HttpFormat from '@httpFormat/index'
 import Marshall from './Marshall'
 
 function checkType(toCheck: any, src: any) {
@@ -11,7 +12,7 @@ function checkType(toCheck: any, src: any) {
 
 function addValue(result: any, src: any) {
     if (!checkType(result, src)) {
-        throw 'MARSHALL BAD TYPE'
+        throw 'MARSHALL ERROR BAD TYPE'
     }
     if (typeof result === 'object') {
         nestedObjectCopy(result, src)
@@ -28,7 +29,11 @@ export default async function marshallObject(
     signature: Interface.MarshallConstructable,
     object: any,
 ): Promise<Marshall> {
-    let marshall: Marshall = new signature()
-    nestedObjectCopy(marshall, object)
-    return marshall
+    try {
+        let marshall: Marshall = new signature()
+        nestedObjectCopy(marshall, object)
+        return marshall
+    } catch (e) {
+        throw new HttpFormat.HttpUnprocessableEntity(object)
+    }
 }

@@ -13,23 +13,17 @@ export default class ExampleCtrl extends Controller {
         try {
             const result = await Marshall.marshallObject(
                 Example.Marshall,
-                req.getBody() as object,
+                req.getBody(),
             )
             return res.setHttpFormat(new HttpFormat.HttpOk(result, 200))
         } catch (e) {
-            if (typeof req.getBody() === 'string') {
-                throw new HttpFormat.HttpBasRequest(
-                    JSON.parse(req.getBody().toString() || '{}'),
-                )
-            } else {
-                throw new HttpFormat.HttpBasRequest(req.getBody() as object)
-            }
+            throw e
         }
     }
 
     before = async (req: type.IRequest, res: type.IResponse) => {}
 
     setRouter = () => {
-        this.get('/test/:id/lib/:libId', this.before, this.test)
+        this.post('/test/:id/lib/:libId', this.before, this.test)
     }
 }
