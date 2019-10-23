@@ -44,6 +44,13 @@ export default class Controller {
     patch = (uri: string, ...cbs: type.ICallback[]) => {
         this._router.push({ method: 'PATCH', uri: uri, cbs: cbs })
     }
+    /**
+     * @param  {string} uri
+     * @param  {type.ICallback[]} ...cbs
+     */
+    options = (uri: string, ...cbs: type.ICallback[]) => {
+        this._router.push({ method: 'OPTIONS', uri: uri, cbs: cbs })
+    }
 
     /**
      * @param  {string} uri
@@ -52,11 +59,9 @@ export default class Controller {
     set = (method: string, uri: string, ...cbs: type.ICallback[]) => {
         this._router.push({ method: method, uri: uri, cbs: cbs })
     }
-
-    setRouter = (): void => {
-        throw 'setRouter must be implemented...'
-    }
-
+    /**
+     * @returns Array
+     */
     getRouter = (): Array<type.IRoute> => {
         return this._router
     }

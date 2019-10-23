@@ -22,6 +22,14 @@ export default class Response implements Interface.IResponse {
             'content-type': 'application/json',
         })
         this.res.write(JSON.stringify(Object.assign(this.httpFormat)))
+
         this.res.end()
+        this.res.on('error', error => {
+            console.log(error)
+        })
+    }
+
+    isClose = () => {
+        return this.res.finished
     }
 }

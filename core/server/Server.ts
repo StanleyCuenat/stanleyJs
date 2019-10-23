@@ -22,6 +22,7 @@ export default class Server {
     private _ctrlList: Array<{ name: string; ctrl: Controller }>
     private _modelList: Array<{ name: string; model: DAO }>
     private _databaseTypeList: Array<{ name: string; type: any }>
+    private _routeSelected: boolean
     private _middlewareList: Array<Interface.ICallback>
     constructor() {
         this._internalServer = this.loadServer()
@@ -29,6 +30,7 @@ export default class Server {
         this._modelList = []
         this._databaseTypeList = []
         this._middlewareList = []
+        this._routeSelected = false
         this.loadModuleFolder()
     }
 
@@ -38,6 +40,12 @@ export default class Server {
 
     getGlobalMiddleware = (): Array<Interface.ICallback> => {
         return this._middlewareList
+    }
+
+    getRouterList = (): Array<type.IRoute> => {
+        return [].concat.apply([], this._ctrlList.map(ctrlObj => {
+            return ctrlObj.ctrl.getRouter()
+        }) as any)
     }
     launchRoute = async (
         req: type.IRequest,
@@ -66,29 +74,64 @@ export default class Server {
      * @returns void
      * Basic Parser for router. Can be improve for sure.
      */
-    parseRequest = (req: type.IRequest, res: type.IResponse): void => {
-        this._ctrlList.forEach(ctrl => {
-            ctrl.ctrl.getRouter().forEach(route => {
-                let uri: string = route.uri as string
-                const regex = new RegExp(':([a-z-A-Z-0-9]{1,})')
-                while (uri.search(regex) !== -1) {
-                    uri = uri.replace(regex, '([a-z-A-Z-0-9]{1,})')
-                }
-                if (
-                    req.url !== undefined &&
-                    req.url.match(new RegExp(uri)) &&
-                    req.method !== undefined &&
-                    route.method.toUpperCase() === req.method.toUpperCase()
-                ) {
-                    this.launchRoute(req, res, route).then(() => {
-                        return res.send()
-                    })
-                } else {
-                    res.setHttpFormat(new HttpFormat.HttpNotFound())
-                    res.send()
-                }
+
+    selectRoute = (
+        req: type.IRequest,
+        res: type.IResponse,
+        route: type.IRoute,
+    ): Promise<any> | undefined => {
+        if (
+            req.method !== undefined &&
+            route.method.toUpperCase() === req.method.toUpperCase()
+        ) {
+            return this.launchRoute(req, res, route)
+        }
+    }
+
+    sendResponse = (p: Promise<any> | undefined, res: type.IResponse): void => {
+        if (p !== undefined) {
+            p.then(() => {
+                res.send()
             })
+        } else {
+            this.responseError(res)
+        }
+    }
+
+    parseRoute = (_uri: string): string => {
+        let uri = _uri
+        const regex = new RegExp(':([a-z-A-Z-0-9]{1,})')
+        while (uri.search(regex) !== -1) {
+            uri = uri.replace(regex, '([a-z-A-Z-0-9]{1,})')
+        }
+        return uri
+    }
+    parseRequest = (req: type.IRequest, res: type.IResponse): void => {
+        let p = undefined
+
+        const routerList = this.getRouterList()
+        console.log(routerList)
+        routerList.some(route => {
+            const uri = this.parseRoute(route.uri as string)
+            if (req.url !== undefined && req.url.match(new RegExp(uri))) {
+                this._routeSelected = true
+                return (p = this.selectRoute(req, res, route)) !== undefined
+            }
         })
+        this.sendResponse(p, res)
+    }
+
+    responseError = (res: type.IResponse): void => {
+        if (res.isClose() !== true) {
+            if (this._routeSelected === true) {
+                this._routeSelected = false
+                res.setHttpFormat(new HttpFormat.HttpMethodNotAllowed())
+                res.send()
+            } else {
+                res.setHttpFormat(new HttpFormat.HttpBadRequest())
+                res.send()
+            }
+        }
     }
 
     /**

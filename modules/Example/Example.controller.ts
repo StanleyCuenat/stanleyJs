@@ -17,9 +17,22 @@ export default class ExampleCtrl extends Controller {
         return res.setHttpFormat(new HttpFormat.HttpOk(result, 200))
     }
 
+    optionResponse = async (
+        req: type.IRequest,
+        res: type.IResponse,
+    ): Promise<any> => {
+        const methodList = this.getRouter()
+            .map(route => {
+                return route.method
+            })
+            .join(',')
+        return res.setHttpFormat(new HttpFormat.HttpOk({ allowed: methodList }))
+    }
+
     before = async (req: type.IRequest, res: type.IResponse) => {}
 
     setRouter = () => {
+        this.options('/test/*', this.optionResponse)
         this.post('/test/:id/lib/:libId', this.before, this.test)
     }
 }

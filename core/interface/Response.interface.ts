@@ -6,4 +6,5 @@ export default interface IResponse {
     setHttpFormat(httpFormat: HttpFormat.HttpResponse): void
     addHeaders(headers: Array<object>): void
     send(): void
+    isClose(): boolean
 }
