@@ -25,10 +25,7 @@ A nice API framework for js lover
 
     Response class (overwrite http.Incoming message) [DONE]
     possibility to set basic variable inside [DONE]
-    Set header content-type dynamically [ IN PROGRESS ]
-        - for 200 success return only the data
-        - then in core/server check the data type [ string, object, img whatever you wan't]
-        - then set the good header
+    Set header content-type dynamically [ BASIC DONE ]
 
 ## middleware
 
@@ -45,7 +42,7 @@ A nice API framework for js lover
 ## DAO
 
     implement DAO Interface and abstract class [DONE]
-    implement Query builder for MongoDB and SQL
+    implement Query builder for MongoDB and SQL [NOT IMPLEMENTED]
 
 ## DB
 

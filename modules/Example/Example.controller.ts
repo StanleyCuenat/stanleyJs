@@ -14,7 +14,7 @@ export default class ExampleCtrl extends Controller {
             Example.Marshall,
             req.getBody(),
         )
-        return res.setHttpFormat(new HttpFormat.HttpOk(result, 201))
+        return res.setHttpFormat(new HttpFormat.HttpOk('test plain text', 201))
     }
 
     optionResponse = async (

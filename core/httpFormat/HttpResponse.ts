@@ -5,10 +5,10 @@ export default class HttpResponse {
     public message: string
 
     constructor(
-        body: any = {},
-        status: number = 200,
-        internalId: string = 'DEFAULT',
-        message: string = 'basic format',
+        body = {},
+        status = 200,
+        internalId = 'DEFAULT',
+        message = 'basic format',
     ) {
         this.body = body
         this.status = status

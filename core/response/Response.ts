@@ -22,11 +22,11 @@ export default class Response implements Interface.IResponse {
     setContentType = () => {
         switch (typeof this.httpFormat.body) {
             case 'string':
-                this.headers['content-type'] = 'application/plain'
+                return (this.headers['content-type'] = 'application/plain')
             case 'object':
-                this.headers['content-type'] = 'application/json'
+                return (this.headers['content-type'] = 'application/json')
             default:
-                this.headers['content-type'] = 'application/json'
+                return (this.headers['content-type'] = 'application/json')
         }
     }
 
