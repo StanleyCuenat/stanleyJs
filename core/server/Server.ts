@@ -110,7 +110,6 @@ export default class Server {
         let p = undefined
 
         const routerList = this.getRouterList()
-        console.log(routerList)
         routerList.some(route => {
             const uri = this.parseRoute(route.uri as string)
             if (req.url !== undefined && req.url.match(new RegExp(uri))) {

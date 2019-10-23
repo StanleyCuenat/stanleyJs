@@ -8,6 +8,7 @@ export default class Response implements Interface.IResponse {
     constructor(_res: http.ServerResponse) {
         this.res = _res
         this.httpFormat = new HttpFormat.HttpResponse()
+        this.headers = {}
     }
 
     setHttpFormat(httpFormat: HttpFormat.HttpResponse): void {
@@ -17,11 +18,26 @@ export default class Response implements Interface.IResponse {
     addHeaders = (headers: Array<object>): void => {
         Object.keys(headers).map(key => {})
     }
+
+    setContentType = () => {
+        switch (typeof this.httpFormat.body) {
+            case 'string':
+                this.headers['content-type'] = 'application/plain'
+            case 'object':
+                this.headers['content-type'] = 'application/json'
+            default:
+                this.headers['content-type'] = 'application/json'
+        }
+    }
+
     send = (): void => {
-        this.res.writeHead(this.httpFormat.status, {
-            'content-type': 'application/json',
-        })
-        this.res.write(JSON.stringify(Object.assign(this.httpFormat)))
+        this.setContentType()
+        this.res.writeHead(this.httpFormat.status, this.headers)
+        if (this.headers['content-type'] !== 'application/json') {
+            this.res.write(JSON.stringify(Object.assign(this.httpFormat.body)))
+        } else {
+            this.res.write(JSON.stringify(Object.assign(this.httpFormat)))
+        }
 
         this.res.end()
         this.res.on('error', error => {
