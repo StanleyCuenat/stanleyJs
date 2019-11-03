@@ -2,4 +2,4 @@ node_modules
 build
 npm-debug.log
 .env
-./modules/
+modules
