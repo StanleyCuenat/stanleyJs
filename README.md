@@ -64,6 +64,12 @@ A nice API framework for js lover
 
     # default JSON parser [DONE]
 
+# todo JSON patcher
+
+    marshall JSON PATCHER [ DONE ]
+    implement json patch [ IN PROGRESS ]
+    http://jsonpatch.com/
+
 # FINAL GOAL
 
     The final goal is to create a typescript framework who already implement the Webmachine

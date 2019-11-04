@@ -1,8 +1,10 @@
 import Controller from '@controller/Controller'
+import * as jsonPatch from '@jsonPatch/index'
 import * as type from '@interface/index'
 import * as Marshall from '@marshall/index'
 import * as Example from './index'
 import * as HttpFormat from '@httpFormat/index'
+import { ExamplePatchModel } from './Example.patch'
 export default class ExampleCtrl extends Controller {
     constructor() {
         super()
@@ -14,10 +16,14 @@ export default class ExampleCtrl extends Controller {
             Example.Marshall,
             req.getBody(),
         )
-        return res.setHttpFormat(new HttpFormat.HttpOk('test plain text', 201))
+        const patchSrc = jsonPatch.CreatePatchObject(
+            req.getBody(),
+            ExamplePatchModel,
+        )
+        return res.setHttpFormat(new HttpFormat.HttpOk(patchSrc, 201))
     }
 
-    optionResponse = async (
+    optionsResponse = async (
         req: type.IRequest,
         res: type.IResponse,
     ): Promise<any> => {
@@ -32,7 +38,7 @@ export default class ExampleCtrl extends Controller {
     before = async (req: type.IRequest, res: type.IResponse) => {}
 
     setRouter = () => {
-        this.options('/test/*', this.optionResponse)
+        this.options('/test/*', this.optionsResponse)
         this.post('/test/:id/lib/:libId', this.before, this.test)
     }
 }
